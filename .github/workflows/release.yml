@@ -1,0 +1,65 @@
+name: Publish GitHub release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag
+        required: true
+        default: v1.0.0
+      title:
+        description: Release title
+        required: true
+        default: v1.0.0 — 初始正式版
+      notes_file:
+        description: Repository path to the release notes
+        required: true
+        default: .github/release-notes/v1.0.0.md
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+      github.event.pull_request.head.ref == 'agent/publish-v1.0.0')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate and build
+        run: npm run check
+      - name: Package deployable site
+        env:
+          RELEASE_TAG: ${{ inputs.tag || 'v1.0.0' }}
+        run: |
+          ARTIFACT="mentalhealth-${RELEASE_TAG}-static-site.zip"
+          (cd dist && zip -qr "../${ARTIFACT}" .)
+          echo "ARTIFACT=${ARTIFACT}" >> "$GITHUB_ENV"
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag || 'v1.0.0' }}
+          RELEASE_TITLE: ${{ inputs.title || 'v1.0.0 — 初始正式版' }}
+          RELEASE_NOTES: ${{ inputs.notes_file || '.github/release-notes/v1.0.0.md' }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "$RELEASE_TAG already exists; nothing to publish."
+            exit 0
+          fi
+          gh release create "$RELEASE_TAG" "$ARTIFACT" \
+            --target main \
+            --title "$RELEASE_TITLE" \
+            --notes-file "$RELEASE_NOTES" \
+            --latest
