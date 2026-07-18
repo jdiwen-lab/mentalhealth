@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">職場韌力角色心理測驗</title>
+  <desc id="desc">太陽、港灣與波浪組成的圓形圖示</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e4f2ee"/>
+      <stop offset="1" stop-color="#f6e3bb"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#174f55"/>
+      <stop offset="1" stop-color="#2f7777"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="174" r="48" fill="#c4841d"/>
+  <path d="M101 302c52-91 103-91 155 0s103 91 155 0" fill="none" stroke="url(#sea)" stroke-width="45" stroke-linecap="round"/>
+  <path d="M119 377c45-49 91-49 137 0s92 49 138 0" fill="none" stroke="#2e86a5" stroke-width="30" stroke-linecap="round" opacity=".9"/>
+  <circle cx="256" cy="256" r="210" fill="none" stroke="#fff" stroke-width="9" opacity=".65"/>
+</svg>

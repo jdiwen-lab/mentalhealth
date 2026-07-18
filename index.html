@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f1e8">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="用五個職場情境，探索你面對壓力時最常運用的韌力角色。免登入、不收集作答資料，約兩分鐘完成。">
+    <meta name="robots" content="index,follow">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:site_name" content="職場韌力角色心理測驗">
+    <meta property="og:title" content="你是哪一種職場韌力角色？">
+    <meta property="og:description" content="五個情境、約兩分鐘，看看你如何在壓力中找回步調。">
+    <meta property="og:url" content="https://jdiwen-lab.github.io/mentalhealth/">
+    <meta property="og:image" content="https://jdiwen-lab.github.io/mentalhealth/assets/og-cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="你是哪一種職場韌力角色？">
+    <meta name="twitter:description" content="五個情境、約兩分鐘，探索你的職場韌力角色。">
+    <meta name="twitter:image" content="https://jdiwen-lab.github.io/mentalhealth/assets/og-cover.png">
+    <link rel="canonical" href="https://jdiwen-lab.github.io/mentalhealth/">
+    <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+    <title>職場韌力角色心理測驗</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳至主要內容</a>
+
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="返回測驗首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 44 44" role="img">
+            <path d="M7 25c5-8 10-8 15 0s10 8 15 0" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M10 31c4-4 8-4 12 0s8 4 12 0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity=".65"/>
+            <circle cx="22" cy="13" r="5" fill="currentColor" opacity=".9"/>
+          </svg>
+        </span>
+        <span>
+          <strong>職場韌力</strong>
+          <small>角色心理測驗</small>
+        </span>
+      </a>
+      <nav class="header-nav" aria-label="主要導覽">
+        <a href="#about">測驗說明</a>
+        <a class="privacy-link" href="#privacy">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.8 8.3 7 10 4.2-1.7 7-5.3 7-10V6l-7-3Zm0 3.2 4 1.7V11c0 3.2-1.6 5.7-4 7-2.4-1.3-4-3.8-4-7V7.9l4-1.7Z"/></svg>
+          本機作答
+        </a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section id="home" class="view view-home is-active" data-view="home" aria-labelledby="hero-title">
+        <div class="hero-shell">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-dot"></span>5 題 · 約 2 分鐘 · 不收集資料</p>
+            <h1 id="hero-title">你是哪一種<br><span>職場韌力角色？</span></h1>
+            <p class="hero-lead">面對壓力時，你最常運用哪一種力量，幫助自己找回步調？從五個日常職場情境，看看你此刻較常展現的韌力方式。</p>
+            <div class="hero-actions">
+              <button id="start-button" class="button button-primary button-large" type="button">
+                開始探索
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+              </button>
+              <button id="resume-button" class="button button-quiet button-large" type="button" hidden>繼續上次進度</button>
+            </div>
+            <div class="trust-row" aria-label="測驗特色">
+              <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>每次只看一題</span>
+              <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.8 8.3 7 10 4.2-1.7 7-5.3 7-10V6l-7-3Z"/></svg>答案留在裝置內</span>
+              <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg>只呈現一種角色</span>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-label="五種職場韌力角色：港灣、燈塔、海風、珊瑚與浪花">
+            <div class="role-orbit" aria-hidden="true">
+              <div class="orbit-ring orbit-ring-one"></div>
+              <div class="orbit-ring orbit-ring-two"></div>
+              <div class="center-island">
+                <span>你的</span>
+                <strong>韌力</strong>
+                <span>正在發光</span>
+              </div>
+              <div class="orbit-role orbit-harbor"><span>港灣</span><small>安定</small></div>
+              <div class="orbit-role orbit-lighthouse"><span>燈塔</span><small>方向</small></div>
+              <div class="orbit-role orbit-breeze"><span>海風</span><small>彈性</small></div>
+              <div class="orbit-role orbit-coral"><span>珊瑚</span><small>連結</small></div>
+              <div class="orbit-role orbit-wave"><span>浪花</span><small>覺察</small></div>
+            </div>
+            <p class="visual-note"><span aria-hidden="true">↗</span>沒有好壞之分，只有不同的復原路徑</p>
+          </div>
+        </div>
+
+        <div class="role-ribbon" aria-label="五種角色核心力量">
+          <div><i class="swatch swatch-harbor"></i><span>港灣型</span><small>安定</small></div>
+          <div><i class="swatch swatch-lighthouse"></i><span>燈塔型</span><small>方向</small></div>
+          <div><i class="swatch swatch-breeze"></i><span>海風型</span><small>彈性</small></div>
+          <div><i class="swatch swatch-coral"></i><span>珊瑚型</span><small>連結</small></div>
+          <div><i class="swatch swatch-wave"></i><span>浪花型</span><small>覺察</small></div>
+        </div>
+      </section>
+
+      <section id="quiz-view" class="view view-quiz" data-view="quiz" aria-labelledby="question-title" hidden>
+        <div class="quiz-shell">
+          <header class="quiz-progress">
+            <div class="progress-copy">
+              <p id="progress-label">第 1 題，共 5 題</p>
+              <span id="progress-percent">20%</span>
+            </div>
+            <div class="progress-track" role="progressbar" aria-labelledby="progress-label" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
+              <span id="progress-bar"></span>
+            </div>
+          </header>
+
+          <form id="quiz-form" class="question-card" novalidate>
+            <fieldset>
+              <legend class="sr-only">請選擇最符合你的答案</legend>
+              <p id="question-context" class="question-context"></p>
+              <h2 id="question-title"></h2>
+              <p class="question-hint">請依直覺選擇最像你平常反應的一項。</p>
+              <div id="options-list" class="options-list" role="radiogroup" aria-describedby="question-help"></div>
+              <p id="question-help" class="keyboard-hint"><kbd>1</kbd>–<kbd>5</kbd> 可快速選擇，方向鍵也能切換選項。</p>
+            </fieldset>
+
+            <div class="quiz-actions">
+              <button id="previous-button" class="button button-quiet" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+                上一題
+              </button>
+              <button id="next-button" class="button button-primary" type="submit" disabled>
+                <span>下一題</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </form>
+
+          <button id="quit-button" class="text-button quiz-quit" type="button">稍後再繼續</button>
+          <div id="quiz-status" class="sr-only" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="result-view" class="view view-result" data-view="result" aria-labelledby="result-title" hidden>
+        <div class="result-intro">
+          <p class="eyebrow"><span class="eyebrow-dot"></span>你的探索結果</p>
+          <p id="result-strength-copy" class="result-strength"></p>
+          <h2 id="result-title"><span id="result-role-name"></span></h2>
+          <p id="result-tagline" class="result-tagline"></p>
+        </div>
+
+        <div class="result-layout">
+          <article class="result-detail-card">
+            <div id="result-symbol" class="result-symbol" aria-hidden="true"></div>
+            <p id="result-summary" class="result-summary"></p>
+            <div id="result-keywords" class="keyword-list" aria-label="角色關鍵字"></div>
+
+            <div class="result-sections">
+              <section>
+                <span class="section-number">01</span>
+                <div><h3>你帶來的力量</h3><p id="result-strength"></p></div>
+              </section>
+              <section>
+                <span class="section-number">02</span>
+                <div><h3>給自己的提醒</h3><p id="result-reminder"></p></div>
+              </section>
+              <section>
+                <span class="section-number">03</span>
+                <div><h3>今天就能做的小練習</h3><p id="result-practice"></p></div>
+              </section>
+            </div>
+          </article>
+
+          <aside class="share-panel" aria-labelledby="share-heading">
+            <div class="share-heading-row">
+              <div>
+                <p class="share-kicker">專屬分享圖卡</p>
+                <h3 id="share-heading">把這份力量帶走</h3>
+              </div>
+              <span class="privacy-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.8 8.3 7 10 4.2-1.7 7-5.3 7-10V6l-7-3Z"/></svg>不含作答內容</span>
+            </div>
+            <canvas id="result-canvas" width="1200" height="1500" aria-label="你的職場韌力角色分享圖卡預覽">你的瀏覽器不支援圖卡預覽，仍可閱讀左側文字結果。</canvas>
+            <div class="share-actions">
+              <button id="share-button" class="button button-primary" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0-12-4 4m4-4 4 4M5 12v7h14v-7"/></svg>
+                分享圖卡
+              </button>
+              <button id="download-button" class="button button-secondary" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 19h14"/></svg>
+                下載 PNG
+              </button>
+              <button id="copy-button" class="button button-quiet" type="button">複製測驗連結</button>
+            </div>
+            <p id="share-support-note" class="share-note">手機可直接分享到支援的社群 App；電腦可下載高畫質 PNG。</p>
+          </aside>
+        </div>
+
+        <div class="result-footer-actions">
+          <button id="retake-button" class="button button-quiet" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+            重新測驗
+          </button>
+          <a class="text-link" href="#about">了解五種韌力角色</a>
+        </div>
+      </section>
+
+      <section id="about" class="info-section" aria-labelledby="about-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span class="eyebrow-dot"></span>關於這份測驗</p>
+          <h2 id="about-title">韌力不只一種樣子</h2>
+          <p>每個答案只對應一種主要角色。系統會先比較五個情境中反覆出現的傾向；若接近，再依「自身壓力應對、核心自我認定與情境直接程度」逐層判定，固定產出一種角色。</p>
+        </div>
+        <div id="role-cards" class="role-cards"></div>
+        <div class="method-note">
+          <div class="method-icon" aria-hidden="true">5³</div>
+          <div>
+            <h3>經過完整組合驗證</h3>
+            <p>全部 3,125 種答案組合都能得到單一結果；在各選項機率相同的假設下，五種角色在演算法上各占 20%，不以固定字母或角色順位決勝。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="privacy" class="privacy-section" aria-labelledby="privacy-title">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-dot"></span>隱私與使用提醒</p>
+          <h2 id="privacy-title">你的答案，只留在這台裝置</h2>
+        </div>
+        <div class="privacy-grid">
+          <article>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.8 8.3 7 10 4.2-1.7 7-5.3 7-10V6l-7-3Z"/></svg>
+            <h3>不傳送作答資料</h3>
+            <p>計算完全在瀏覽器內完成；網站沒有帳號、資料庫、追蹤碼或第三方分析工具。</p>
+          </article>
+          <article>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg>
+            <h3>分享內容已最小化</h3>
+            <p>圖卡只包含角色名稱與簡短描述，不含姓名、原始答案、分數或可識別個人的網址參數。</p>
+          </article>
+          <article>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 6v5m0 3h.01"/></svg>
+            <h3>趣味探索，不是診斷</h3>
+            <p>結果反映本次情境選擇中較常展現的方式，僅供自我覺察與活動體驗，不是心理衡鑑或醫療診斷。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 44 44"><path d="M7 25c5-8 10-8 15 0s10 8 15 0" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><circle cx="22" cy="13" r="5" fill="currentColor"/></svg>
+        </span>
+        <div><strong>職場韌力角色心理測驗</strong><small>找到適合自己的復原路徑</small></div>
+      </div>
+      <p>本測驗僅供自我探索與活動體驗參考，並非正式心理衡鑑或診斷工具。</p>
+      <a href="#home">回到頁首 <span aria-hidden="true">↑</span></a>
+    </footer>
+
+    <dialog id="restart-dialog" class="confirm-dialog" aria-labelledby="restart-title">
+      <form method="dialog">
+        <div class="dialog-icon" aria-hidden="true">↻</div>
+        <h2 id="restart-title">重新開始測驗？</h2>
+        <p>目前的作答與結果會從這台裝置清除。</p>
+        <div class="dialog-actions">
+          <button class="button button-quiet" value="cancel">先不要</button>
+          <button id="restart-confirm" class="button button-primary" value="confirm">重新開始</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    <noscript><div class="noscript">這份測驗需要 JavaScript 才能進行。請啟用 JavaScript 後重新整理頁面。</div></noscript>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

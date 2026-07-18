@@ -1,0 +1,38 @@
+{
+  "name": "職場韌力角色心理測驗",
+  "short_name": "韌力角色",
+  "description": "用五個職場情境，探索你面對壓力時最常運用的韌力方式。",
+  "lang": "zh-Hant-TW",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f1e8",
+  "theme_color": "#174f55",
+  "categories": ["lifestyle", "education", "productivity"],
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "開始測驗",
+      "short_name": "開始測驗",
+      "description": "從第一題開始探索職場韌力角色",
+      "url": "./#home",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

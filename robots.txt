@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jdiwen-lab.github.io/mentalhealth/sitemap.xml
