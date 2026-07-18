@@ -1,4 +1,4 @@
-const CACHE_VERSION = "mentalhealth-v1.0.0";
+const CACHE_VERSION = "mentalhealth-v1.1.0-card-redesign";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,9 +9,15 @@ const APP_SHELL = [
   "./js/scoring.js",
   "./js/result-card.js",
   "./assets/app-icon.svg",
+  "./assets/fonts/fonts.css",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
-  "./assets/og-cover.png"
+  "./assets/og-cover.png",
+  "./assets/cards/harbor-preview.webp",
+  "./assets/cards/lighthouse-preview.webp",
+  "./assets/cards/breeze-preview.webp",
+  "./assets/cards/coral-preview.webp",
+  "./assets/cards/wave-preview.webp"
 ];
 
 function scopedUrl(path) {
