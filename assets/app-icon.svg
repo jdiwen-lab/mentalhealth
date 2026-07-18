@@ -1,19 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
   <title id="title">職場韌力角色心理測驗</title>
-  <desc id="desc">太陽、港灣與波浪組成的圓形圖示</desc>
+  <desc id="desc">深藍金框中的燈塔與波浪圖示</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#e4f2ee"/>
-      <stop offset="1" stop-color="#f6e3bb"/>
+      <stop offset="0" stop-color="#173e70"/>
+      <stop offset="1" stop-color="#071d38"/>
     </linearGradient>
-    <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#174f55"/>
-      <stop offset="1" stop-color="#2f7777"/>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6dfa9"/>
+      <stop offset="0.55" stop-color="#bd8741"/>
+      <stop offset="1" stop-color="#f0cf87"/>
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <circle cx="256" cy="174" r="48" fill="#c4841d"/>
-  <path d="M101 302c52-91 103-91 155 0s103 91 155 0" fill="none" stroke="url(#sea)" stroke-width="45" stroke-linecap="round"/>
-  <path d="M119 377c45-49 91-49 137 0s92 49 138 0" fill="none" stroke="#2e86a5" stroke-width="30" stroke-linecap="round" opacity=".9"/>
-  <circle cx="256" cy="256" r="210" fill="none" stroke="#fff" stroke-width="9" opacity=".65"/>
+  <rect x="28" y="28" width="456" height="456" rx="91" fill="none" stroke="url(#gold)" stroke-width="12"/>
+  <rect x="48" y="48" width="416" height="416" rx="75" fill="none" stroke="#f6e0b0" stroke-opacity="0.55" stroke-width="4"/>
+  <path d="M212 357h88l-14-170h-60l-14 170Z" fill="#fff7e8" stroke="url(#gold)" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M221 181h70l-35-38-35 38Z" fill="url(#gold)"/>
+  <rect x="226" y="189" width="60" height="52" rx="8" fill="#f5d88f"/>
+  <path d="M192 246h128M203 357h106" fill="none" stroke="#f1ce82" stroke-width="12" stroke-linecap="round"/>
+  <path d="M84 380c46-45 91-45 137 0s91 45 137 0 70-39 91-18" fill="none" stroke="#f7e3b6" stroke-width="17" stroke-linecap="round"/>
+  <path d="M96 416c42-31 82-31 123 0s82 31 123 0 72-27 89-13" fill="none" stroke="#d2a555" stroke-width="12" stroke-linecap="round"/>
+  <path d="M151 204 88 182M361 204l63-22M161 239H88M351 239h73" fill="none" stroke="#f4d791" stroke-width="13" stroke-linecap="round" opacity="0.88"/>
+  <circle cx="256" cy="215" r="14" fill="#fff9e9"/>
 </svg>

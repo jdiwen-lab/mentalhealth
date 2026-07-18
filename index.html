@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#f5f1e8">
+    <meta name="theme-color" content="#10284a">
     <meta name="color-scheme" content="light dark">
     <meta name="description" content="用五個職場情境，探索你面對壓力時最常運用的韌力角色。免登入、不收集作答資料，約兩分鐘完成。">
     <meta name="robots" content="index,follow">
@@ -14,16 +14,20 @@
     <meta property="og:description" content="五個情境、約兩分鐘，看看你如何在壓力中找回步調。">
     <meta property="og:url" content="https://jdiwen-lab.github.io/mentalhealth/">
     <meta property="og:image" content="https://jdiwen-lab.github.io/mentalhealth/assets/og-cover.png">
+    <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="五張職場韌力角色圖卡與測驗標題：找到你的職場韌力角色">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="你是哪一種職場韌力角色？">
     <meta name="twitter:description" content="五個情境、約兩分鐘，探索你的職場韌力角色。">
     <meta name="twitter:image" content="https://jdiwen-lab.github.io/mentalhealth/assets/og-cover.png">
+    <meta name="twitter:image:alt" content="五張職場韌力角色圖卡與測驗標題：找到你的職場韌力角色">
     <link rel="canonical" href="https://jdiwen-lab.github.io/mentalhealth/">
     <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/icon-192.png">
     <link rel="manifest" href="manifest.webmanifest">
+    <link rel="preload" as="image" href="assets/cards/harbor-preview.webp" type="image/webp" fetchpriority="high">
     <link rel="stylesheet" href="styles.css">
     <title>職場韌力角色心理測驗</title>
   </head>
@@ -54,18 +58,23 @@
           本機作答
         </a>
       </nav>
+      <div class="reading-controls" role="group" aria-label="調整網頁文字大小">
+        <span aria-hidden="true">字體</span>
+        <button type="button" data-font-size="normal" aria-label="使用標準大字體" aria-pressed="true">標準</button>
+        <button type="button" data-font-size="large" aria-label="放大網頁文字" aria-pressed="false">A＋</button>
+      </div>
     </header>
 
     <main id="main-content">
       <section id="home" class="view view-home is-active" data-view="home" aria-labelledby="hero-title">
         <div class="hero-shell">
           <div class="hero-copy">
-            <p class="eyebrow"><span class="eyebrow-dot"></span>5 題 · 約 2 分鐘 · 不收集資料</p>
-            <h1 id="hero-title">你是哪一種<br><span>職場韌力角色？</span></h1>
+            <p class="eyebrow"><span class="eyebrow-dot"></span>5 題 · 約 2 分鐘 · 全程本機作答</p>
+            <h1 id="hero-title">找到你的<br><span>職場韌力角色</span></h1>
             <p class="hero-lead">面對壓力時，你最常運用哪一種力量，幫助自己找回步調？從五個日常職場情境，看看你此刻較常展現的韌力方式。</p>
             <div class="hero-actions">
               <button id="start-button" class="button button-primary button-large" type="button">
-                開始探索
+                開始測驗（共 5 題）
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
               </button>
               <button id="resume-button" class="button button-quiet button-large" type="button" hidden>繼續上次進度</button>
@@ -77,22 +86,15 @@
             </div>
           </div>
 
-          <div class="hero-visual" aria-label="五種職場韌力角色：港灣、燈塔、海風、珊瑚與浪花">
-            <div class="role-orbit" aria-hidden="true">
-              <div class="orbit-ring orbit-ring-one"></div>
-              <div class="orbit-ring orbit-ring-two"></div>
-              <div class="center-island">
-                <span>你的</span>
-                <strong>韌力</strong>
-                <span>正在發光</span>
-              </div>
-              <div class="orbit-role orbit-harbor"><span>港灣</span><small>安定</small></div>
-              <div class="orbit-role orbit-lighthouse"><span>燈塔</span><small>方向</small></div>
-              <div class="orbit-role orbit-breeze"><span>海風</span><small>彈性</small></div>
-              <div class="orbit-role orbit-coral"><span>珊瑚</span><small>連結</small></div>
-              <div class="orbit-role orbit-wave"><span>浪花</span><small>覺察</small></div>
+          <div class="hero-visual" aria-label="完成測驗後會取得一張專屬職場韌力角色圖卡">
+            <div class="hero-card-showcase">
+              <div class="showcase-glow" aria-hidden="true"></div>
+              <img class="showcase-card showcase-card-left" src="assets/cards/coral-preview.webp" width="640" height="960" alt="" aria-hidden="true">
+              <img class="showcase-card showcase-card-center" src="assets/cards/harbor-preview.webp" width="640" height="960" alt="港灣型職場韌力角色圖卡範例" fetchpriority="high">
+              <img class="showcase-card showcase-card-right" src="assets/cards/breeze-preview.webp" width="640" height="960" alt="" aria-hidden="true">
+              <span class="showcase-seal" aria-hidden="true">EAP<br>韌力卡</span>
             </div>
-            <p class="visual-note"><span aria-hidden="true">↗</span>沒有好壞之分，只有不同的復原路徑</p>
+            <p class="visual-note"><span aria-hidden="true">✦</span>完成後取得專屬圖卡，可分享或下載收藏</p>
           </div>
         </div>
 
@@ -122,7 +124,7 @@
               <legend class="sr-only">請選擇最符合你的答案</legend>
               <p id="question-context" class="question-context"></p>
               <h2 id="question-title"></h2>
-              <p class="question-hint">請依直覺選擇最像你平常反應的一項。</p>
+              <p class="question-hint">請依直覺選擇最像你平常反應的一項。點選整張選項即可作答。</p>
               <div id="options-list" class="options-list" role="radiogroup" aria-describedby="question-help"></div>
               <p id="question-help" class="keyboard-hint"><kbd>1</kbd>–<kbd>5</kbd> 可快速選擇，方向鍵也能切換選項。</p>
             </fieldset>
@@ -182,7 +184,10 @@
               </div>
               <span class="privacy-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.8 8.3 7 10 4.2-1.7 7-5.3 7-10V6l-7-3Z"/></svg>不含作答內容</span>
             </div>
-            <canvas id="result-canvas" width="1200" height="1500" aria-label="你的職場韌力角色分享圖卡預覽">你的瀏覽器不支援圖卡預覽，仍可閱讀左側文字結果。</canvas>
+            <picture class="result-card-picture">
+              <source id="result-card-source" type="image/webp">
+              <img id="result-card-image" width="640" height="960" alt="你的職場韌力角色圖卡" decoding="async">
+            </picture>
             <div class="share-actions">
               <button id="share-button" class="button button-primary" type="button">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0-12-4 4m4-4 4 4M5 12v7h14v-7"/></svg>

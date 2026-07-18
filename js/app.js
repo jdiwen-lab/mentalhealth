@@ -1,8 +1,9 @@
 import { questions, roleOrder, roles, strengthCopy } from "./quiz-data.js";
 import { scoreQuiz } from "./scoring.js";
-import { canvasToBlob, renderResultCard, roleSymbolSvg } from "./result-card.js";
+import { fetchResultCardBlob, getResultCardAsset, roleSymbolSvg } from "./result-card.js";
 
 const STORAGE_KEY = "workplace-resilience-quiz:v2";
+const FONT_SIZE_KEY = "workplace-resilience-font-size";
 const canonicalUrl = document.querySelector('link[rel="canonical"]')?.href ?? window.location.href.split("#")[0];
 
 const elements = {
@@ -31,7 +32,8 @@ const elements = {
   resultStrength: document.querySelector("#result-strength"),
   resultReminder: document.querySelector("#result-reminder"),
   resultPractice: document.querySelector("#result-practice"),
-  resultCanvas: document.querySelector("#result-canvas"),
+  resultCardSource: document.querySelector("#result-card-source"),
+  resultCardImage: document.querySelector("#result-card-image"),
   shareButton: document.querySelector("#share-button"),
   downloadButton: document.querySelector("#download-button"),
   copyButton: document.querySelector("#copy-button"),
@@ -39,6 +41,7 @@ const elements = {
   retakeButton: document.querySelector("#retake-button"),
   restartDialog: document.querySelector("#restart-dialog"),
   roleCards: document.querySelector("#role-cards"),
+  fontSizeButtons: [...document.querySelectorAll("[data-font-size]")],
   toast: document.querySelector("#toast")
 };
 
@@ -245,11 +248,17 @@ function renderRoleCards() {
     article.className = "role-card";
     article.style.setProperty("--card-color", role.color);
     article.style.setProperty("--card-soft", role.colorSoft);
+    const cardAsset = getResultCardAsset(role.id);
     article.innerHTML = `
-      <span class="role-card-index">${String(index + 1).padStart(2, "0")} · ${role.englishName}</span>
-      <h3>${role.name}</h3>
-      <strong>${role.core}</strong>
-      <p>${role.summary}</p>
+      <figure class="role-card-visual">
+        <img src="${cardAsset.preview}" width="640" height="960" alt="${role.name}韌力角色圖卡" loading="lazy" decoding="async">
+      </figure>
+      <div class="role-card-copy">
+        <span class="role-card-index">${String(index + 1).padStart(2, "0")} · ${role.englishName}</span>
+        <h3>${role.name}</h3>
+        <strong>${role.core}</strong>
+        <p>${role.summary}</p>
+      </div>
     `;
     elements.roleCards.append(article);
   });
@@ -284,14 +293,18 @@ async function renderResult() {
   elements.resultReminder.textContent = role.reminder;
   elements.resultPractice.textContent = role.practice;
 
+  const cardAsset = getResultCardAsset(role.id);
+  elements.resultCardSource.srcset = cardAsset.preview;
+  elements.resultCardImage.src = cardAsset.preview;
+  elements.resultCardImage.alt = `${role.name}職場韌力角色圖卡：${role.tagline}`;
+
   showView("result");
-  await renderResultCard(elements.resultCanvas, role, strengthLine);
   updateShareSupport();
 }
 
 async function getCardBlob() {
   if (!latestResult) throw new Error("尚未產生測驗結果");
-  if (!latestCardBlob) latestCardBlob = await canvasToBlob(elements.resultCanvas);
+  if (!latestCardBlob) latestCardBlob = await fetchResultCardBlob(latestResult.roleId);
   return latestCardBlob;
 }
 
@@ -375,6 +388,28 @@ function showToast(message) {
   toastTimer = window.setTimeout(() => elements.toast.classList.remove("is-visible"), 2600);
 }
 
+function applyFontSize(size, { announce = false } = {}) {
+  const safeSize = size === "large" ? "large" : "normal";
+  document.documentElement.dataset.fontSize = safeSize;
+  elements.fontSizeButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.fontSize === safeSize));
+  });
+  try {
+    sessionStorage.setItem(FONT_SIZE_KEY, safeSize);
+  } catch {
+    // The reading control remains usable if storage is unavailable.
+  }
+  if (announce) showToast(safeSize === "large" ? "文字已放大" : "已恢復標準大字體");
+}
+
+function loadFontSize() {
+  try {
+    applyFontSize(sessionStorage.getItem(FONT_SIZE_KEY) ?? "normal");
+  } catch {
+    applyFontSize("normal");
+  }
+}
+
 function openRestartDialog() {
   if (typeof elements.restartDialog.showModal === "function") {
     elements.restartDialog.showModal();
@@ -416,6 +451,9 @@ elements.shareButton.addEventListener("click", shareResult);
 elements.downloadButton.addEventListener("click", downloadResult);
 elements.copyButton.addEventListener("click", copyQuizLink);
 elements.retakeButton.addEventListener("click", openRestartDialog);
+elements.fontSizeButtons.forEach((button) => {
+  button.addEventListener("click", () => applyFontSize(button.dataset.fontSize, { announce: true }));
+});
 elements.restartDialog.addEventListener("close", () => {
   if (elements.restartDialog.returnValue === "confirm") startNewQuiz();
 });
@@ -425,6 +463,7 @@ window.addEventListener("hashchange", () => {
 });
 
 renderRoleCards();
+loadFontSize();
 loadState();
 updateShareSupport();
 registerServiceWorker();
