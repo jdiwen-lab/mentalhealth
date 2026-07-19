@@ -4,6 +4,10 @@
 
 ## [尚未發行]
 
+目前沒有尚未發行的變更。
+
+## [1.1.0] - 2026-07-19
+
 ### 變更
 
 - 將五種結果完整替換為 1024 × 1536 自製角色圖卡，分享與下載使用原始高畫質 PNG，網頁預覽使用輕量 WebP
@@ -40,5 +44,6 @@
 - 五種角色各 625 種結果
 - 桌機與手機瀏覽器 QA 全數通過
 
-[尚未發行]: https://github.com/jdiwen-lab/mentalhealth/compare/v1.0.0...HEAD
+[尚未發行]: https://github.com/jdiwen-lab/mentalhealth/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/jdiwen-lab/mentalhealth/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/jdiwen-lab/mentalhealth/releases/tag/v1.0.0
