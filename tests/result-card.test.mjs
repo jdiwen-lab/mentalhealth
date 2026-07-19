@@ -11,8 +11,8 @@ test("五種結果各自使用唯一的自製圖卡", () => {
   assert.equal(new Set(assets.map(({ preview }) => preview)).size, roleOrder.length);
 
   roleOrder.forEach((roleId, index) => {
-    assert.equal(assets[index].original, `assets/cards/${roleId}.png`);
-    assert.equal(assets[index].preview, `assets/cards/${roleId}-preview.webp`);
+    assert.equal(assets[index].original, `assets/cards/${roleId}.png?v=__ASSET_VERSION__`);
+    assert.equal(assets[index].preview, `assets/cards/${roleId}-preview.webp?v=__ASSET_VERSION__`);
   });
 });
 

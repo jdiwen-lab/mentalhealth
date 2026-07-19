@@ -1,23 +1,26 @@
+const ASSET_VERSION = "__ASSET_VERSION__";
+const versionedAsset = (path) => `${path}?v=${ASSET_VERSION}`;
+
 const CARD_ASSETS = {
   harbor: {
-    preview: "assets/cards/harbor-preview.webp",
-    original: "assets/cards/harbor.png"
+    preview: versionedAsset("assets/cards/harbor-preview.webp"),
+    original: versionedAsset("assets/cards/harbor.png")
   },
   lighthouse: {
-    preview: "assets/cards/lighthouse-preview.webp",
-    original: "assets/cards/lighthouse.png"
+    preview: versionedAsset("assets/cards/lighthouse-preview.webp"),
+    original: versionedAsset("assets/cards/lighthouse.png")
   },
   breeze: {
-    preview: "assets/cards/breeze-preview.webp",
-    original: "assets/cards/breeze.png"
+    preview: versionedAsset("assets/cards/breeze-preview.webp"),
+    original: versionedAsset("assets/cards/breeze.png")
   },
   coral: {
-    preview: "assets/cards/coral-preview.webp",
-    original: "assets/cards/coral.png"
+    preview: versionedAsset("assets/cards/coral-preview.webp"),
+    original: versionedAsset("assets/cards/coral.png")
   },
   wave: {
-    preview: "assets/cards/wave-preview.webp",
-    original: "assets/cards/wave.png"
+    preview: versionedAsset("assets/cards/wave-preview.webp"),
+    original: versionedAsset("assets/cards/wave.png")
   }
 };
 

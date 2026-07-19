@@ -1,6 +1,6 @@
-import { questions, roleOrder, roles } from "./quiz-data.js";
-import { scoreQuiz } from "./scoring.js";
-import { fetchResultCardBlob, getResultCardAsset, roleSymbolSvg } from "./result-card.js";
+import { questions, roleOrder, roles } from "./quiz-data.js?v=__ASSET_VERSION__";
+import { scoreQuiz } from "./scoring.js?v=__ASSET_VERSION__";
+import { fetchResultCardBlob, getResultCardAsset, roleSymbolSvg } from "./result-card.js?v=__ASSET_VERSION__";
 
 const STORAGE_KEY = "workplace-resilience-quiz:v2";
 const FONT_SIZE_KEY = "workplace-resilience-font-size";
@@ -9,6 +9,7 @@ const canonicalUrl = document.querySelector('link[rel="canonical"]')?.href ?? wi
 const elements = {
   views: [...document.querySelectorAll("[data-view]")],
   startButton: document.querySelector("#start-button"),
+  startButtonLabel: document.querySelector("#start-button-label"),
   resumeButton: document.querySelector("#resume-button"),
   quizForm: document.querySelector("#quiz-form"),
   previousButton: document.querySelector("#previous-button"),
@@ -31,8 +32,11 @@ const elements = {
   resultPractice: document.querySelector("#result-practice"),
   resultCardSource: document.querySelector("#result-card-source"),
   resultCardImage: document.querySelector("#result-card-image"),
+  sharePanel: document.querySelector(".share-panel"),
   shareButton: document.querySelector("#share-button"),
+  shareButtonLabel: document.querySelector("#share-button-label"),
   downloadButton: document.querySelector("#download-button"),
+  downloadButtonLabel: document.querySelector("#download-button-label"),
   copyButton: document.querySelector("#copy-button"),
   retakeButton: document.querySelector("#retake-button"),
   restartDialog: document.querySelector("#restart-dialog"),
@@ -45,7 +49,10 @@ const elements = {
 let state = createFreshState();
 let latestResult = null;
 let latestCardBlob = null;
+let latestCardBlobPromise = null;
+let cardActionPending = false;
 let toastTimer = null;
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 function shuffle(values) {
   const result = [...values];
@@ -106,6 +113,15 @@ function updateResumeButton() {
   const canResume = answered > 0;
   elements.resumeButton.hidden = !canResume;
   elements.resumeButton.textContent = state.completed ? "查看上次結果" : `繼續上次進度（${answered}/5）`;
+  elements.startButtonLabel.textContent = canResume ? "重新開始測驗" : "開始測驗（共 5 題）";
+  elements.resumeButton.classList.toggle("button-primary", canResume);
+  elements.resumeButton.classList.toggle("button-quiet", !canResume);
+  elements.startButton.classList.toggle("button-primary", !canResume);
+  elements.startButton.classList.toggle("button-quiet", canResume);
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: reducedMotionQuery.matches ? "auto" : "smooth" });
 }
 
 function showView(name, { focus = true } = {}) {
@@ -120,7 +136,7 @@ function showView(name, { focus = true } = {}) {
   });
   document.body.classList.toggle("quiz-active", name === "quiz");
   document.body.dataset.activeView = name;
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  scrollToTop();
 
   if (focus) {
     window.setTimeout(() => {
@@ -131,7 +147,7 @@ function showView(name, { focus = true } = {}) {
           : document.querySelector("#hero-title");
       target?.setAttribute("tabindex", "-1");
       target?.focus({ preventScroll: true });
-    }, 180);
+    }, reducedMotionQuery.matches ? 0 : 180);
   }
 }
 
@@ -139,6 +155,9 @@ function startNewQuiz() {
   state = createFreshState();
   latestResult = null;
   latestCardBlob = null;
+  latestCardBlobPromise = null;
+  cardActionPending = false;
+  setCardActionsBusy(false);
   saveState();
   renderQuestion();
   showView("quiz");
@@ -230,7 +249,7 @@ function handleQuizSubmit(event) {
     saveState();
     renderQuestion();
     elements.questionTitle.focus({ preventScroll: true });
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToTop();
     return;
   }
 
@@ -273,6 +292,8 @@ async function renderResult() {
 
   latestResult = scoreQuiz(state.answers);
   latestCardBlob = null;
+  latestCardBlobPromise = null;
+  cardActionPending = false;
   const role = roles[latestResult.roleId];
 
   elements.resultView.style.setProperty("--role-color", role.color);
@@ -304,8 +325,18 @@ async function renderResult() {
 
 async function getCardBlob() {
   if (!latestResult) throw new Error("尚未產生測驗結果");
-  if (!latestCardBlob) latestCardBlob = await fetchResultCardBlob(latestResult.roleId);
-  return latestCardBlob;
+  if (latestCardBlob) return latestCardBlob;
+  if (!latestCardBlobPromise) {
+    latestCardBlobPromise = fetchResultCardBlob(latestResult.roleId)
+      .then((blob) => {
+        latestCardBlob = blob;
+        return blob;
+      })
+      .finally(() => {
+        latestCardBlobPromise = null;
+      });
+  }
+  return latestCardBlobPromise;
 }
 
 function resultFilename() {
@@ -313,33 +344,76 @@ function resultFilename() {
   return role ? `我的職場韌力角色-${role.name}.png` : "我的職場韌力角色.png";
 }
 
+function getShareCapability() {
+  if (typeof navigator.share !== "function") return "none";
+  if (typeof navigator.canShare !== "function" || typeof File !== "function") return "text";
+  try {
+    const sampleFile = new File([new Uint8Array([0])], "result.png", { type: "image/png" });
+    return navigator.canShare({ files: [sampleFile] }) ? "file" : "text";
+  } catch {
+    return "text";
+  }
+}
+
+function getShareData(role) {
+  return {
+    title: `我的職場韌力角色是${role.name}`,
+    text: `${role.tagline}——你是哪一種職場韌力角色？`,
+    url: canonicalUrl
+  };
+}
+
+function setCardActionsBusy(isBusy, activeAction = "") {
+  cardActionPending = isBusy;
+  elements.sharePanel.setAttribute("aria-busy", String(isBusy));
+  elements.shareButton.disabled = isBusy;
+  elements.downloadButton.disabled = isBusy;
+  elements.shareButton.toggleAttribute("aria-busy", isBusy && activeAction === "share");
+  elements.downloadButton.toggleAttribute("aria-busy", isBusy && activeAction === "download");
+
+  if (isBusy) {
+    if (activeAction === "share") {
+      elements.shareButtonLabel.textContent = getShareCapability() === "file" ? "正在準備圖卡…" : "正在開啟分享…";
+    }
+    if (activeAction === "download") elements.downloadButtonLabel.textContent = "正在準備 PNG…";
+    return;
+  }
+
+  elements.downloadButtonLabel.textContent = "下載 PNG";
+  updateShareAvailability();
+}
+
 async function shareResult() {
+  if (cardActionPending || !latestResult) return;
+  const capability = getShareCapability();
+  if (capability === "none") return;
+  setCardActionsBusy(true, "share");
+
   try {
     const role = roles[latestResult.roleId];
-    const blob = await getCardBlob();
-    const file = new File([blob], resultFilename(), { type: "image/png" });
-    const shareData = {
-      title: `我的職場韌力角色是${role.name}`,
-      text: `${role.tagline}——你是哪一種職場韌力角色？`,
-      url: canonicalUrl
-    };
+    const shareData = getShareData(role);
 
-    if (navigator.share && navigator.canShare?.({ files: [file] })) {
-      await navigator.share({ ...shareData, files: [file] });
-      return;
+    if (capability === "file") {
+      const blob = await getCardBlob();
+      const file = new File([blob], resultFilename(), { type: "image/png" });
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({ ...shareData, files: [file] });
+        return;
+      }
     }
-    if (navigator.share) {
-      await navigator.share(shareData);
-      return;
-    }
-    downloadResult();
-    showToast("此裝置不支援直接分享，已改為下載圖卡");
+
+    await navigator.share(shareData);
   } catch (error) {
     if (error?.name !== "AbortError") showToast("分享未完成，請改用下載圖卡");
+  } finally {
+    setCardActionsBusy(false);
   }
 }
 
 async function downloadResult() {
+  if (cardActionPending || !latestResult) return;
+  setCardActionsBusy(true, "download");
+
   try {
     const blob = await getCardBlob();
     const href = URL.createObjectURL(blob);
@@ -353,6 +427,8 @@ async function downloadResult() {
     showToast("高畫質圖卡已下載");
   } catch {
     showToast("圖卡下載失敗，請稍後再試");
+  } finally {
+    setCardActionsBusy(false);
   }
 }
 
@@ -374,8 +450,9 @@ async function copyQuizLink() {
 }
 
 function updateShareAvailability() {
-  const mobileLike = matchMedia("(pointer: coarse)").matches;
-  elements.shareButton.hidden = !navigator.share && !mobileLike;
+  const capability = getShareCapability();
+  elements.shareButton.hidden = capability === "none";
+  elements.shareButtonLabel.textContent = capability === "file" ? "分享圖卡" : "分享測驗連結";
 }
 
 function showToast(message) {
@@ -409,10 +486,16 @@ function loadFontSize() {
 
 function openRestartDialog() {
   if (typeof elements.restartDialog.showModal === "function") {
+    elements.restartDialog.returnValue = "";
     elements.restartDialog.showModal();
   } else if (window.confirm("重新開始測驗？目前的作答與結果會被清除。")) {
     startNewQuiz();
   }
+}
+
+function handleStartRequest() {
+  if (state.answers.some(Boolean)) openRestartDialog();
+  else startNewQuiz();
 }
 
 function handleKeyboardShortcuts(event) {
@@ -435,7 +518,7 @@ function registerServiceWorker() {
   });
 }
 
-elements.startButton.addEventListener("click", startNewQuiz);
+elements.startButton.addEventListener("click", handleStartRequest);
 elements.resumeButton.addEventListener("click", resumeQuiz);
 elements.quizForm.addEventListener("submit", handleQuizSubmit);
 elements.previousButton.addEventListener("click", goToPreviousQuestion);
@@ -447,7 +530,9 @@ elements.fontSizeButtons.forEach((button) => {
   button.addEventListener("click", () => applyFontSize(button.dataset.fontSize, { announce: true }));
 });
 elements.restartDialog.addEventListener("close", () => {
-  if (elements.restartDialog.returnValue === "confirm") startNewQuiz();
+  const confirmed = elements.restartDialog.returnValue === "confirm";
+  elements.restartDialog.returnValue = "";
+  if (confirmed) startNewQuiz();
 });
 document.addEventListener("keydown", handleKeyboardShortcuts);
 window.addEventListener("hashchange", () => {

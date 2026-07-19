@@ -1,4 +1,4 @@
-@import url("assets/fonts/fonts.css");
+@import url("assets/fonts/fonts.css?v=__ASSET_VERSION__");
 
 :root {
   --canvas: #f5f1e8;
@@ -1494,8 +1494,13 @@ body {
 }
 
 :focus-visible {
-  outline: 4px solid #e1ac4e;
+  outline: 4px solid #12365f;
   outline-offset: 4px;
+}
+
+.site-header :focus-visible,
+.skip-link:focus-visible {
+  outline-color: #ffe4a8;
 }
 
 .skip-link {
@@ -1617,6 +1622,10 @@ body {
     radial-gradient(circle at 82% 16%, rgba(209, 165, 89, 0.22), transparent 24rem),
     linear-gradient(145deg, rgba(255, 251, 242, 0.98), rgba(247, 235, 212, 0.98));
   box-shadow: var(--shadow-lg);
+}
+
+.hero-actions #resume-button:not([hidden]) {
+  order: -1;
 }
 
 .hero-shell::before,
@@ -2674,6 +2683,38 @@ kbd {
 
   .privacy-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+.option-item input:focus-visible + .option-label {
+  outline: 4px solid #12365f;
+  outline-offset: 4px;
+}
+
+.share-panel[aria-busy="true"] .result-card-picture {
+  opacity: 0.72;
+}
+
+@media (forced-colors: active) {
+  :focus-visible,
+  .site-header :focus-visible,
+  .skip-link:focus-visible,
+  .option-item input:focus-visible + .option-label {
+    outline: 3px solid Highlight;
+    outline-offset: 4px;
+  }
+
+  .button,
+  .option-label,
+  .reading-controls button,
+  .confirm-dialog,
+  .progress-track {
+    border: 2px solid ButtonText;
+  }
+
+  .option-item input:checked + .option-label {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
   }
 }
 

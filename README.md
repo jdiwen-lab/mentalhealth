@@ -18,13 +18,15 @@
 不需要安裝前端相依套件。Node.js 20 以上只用於測試與建置。
 
 ```bash
-npm test
-npm run validate
-npm run build
-npm run serve
+npm ci
+npm run check
+npx playwright install chromium
+npm run test:e2e
 ```
 
-接著開啟 `http://localhost:4173`。若要測試 `dist` 成品，可在 `dist` 目錄另行啟動靜態伺服器。
+瀏覽器測試會自動建置並啟動 `dist` 成品。若只要手動預覽，可先執行 `npm run build`，再執行 `npm run serve:dist`，接著開啟 `http://localhost:4173`。
+
+建置流程會從 `package.json` 讀取版本，替換所有前端資源的 `__ASSET_VERSION__` 標記，避免新版頁面載入舊版程式模組。
 
 ## 計分與同分決勝
 
