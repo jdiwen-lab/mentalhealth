@@ -1,4 +1,4 @@
-const CACHE_VERSION = "mentalhealth-v1.1.0-card-redesign";
+const CACHE_VERSION = "mentalhealth-2026-07-19-streamlined-flow";
 const APP_SHELL = [
   "./",
   "./index.html",
