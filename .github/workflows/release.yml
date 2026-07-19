@@ -6,15 +6,7 @@ on:
       tag:
         description: Release tag
         required: true
-        default: v1.0.0
-      title:
-        description: Release title
-        required: true
-        default: v1.0.0 — 初始正式版
-      notes_file:
-        description: Repository path to the release notes
-        required: true
-        default: .github/release-notes/v1.0.0.md
+        default: v1.1.0
   pull_request:
     branches: [main]
     types: [closed]
@@ -27,7 +19,7 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event.pull_request.merged == true &&
-      github.event.pull_request.head.ref == 'agent/publish-v1.0.0')
+      startsWith(github.event.pull_request.head.ref, 'agent/publish-v'))
     runs-on: ubuntu-latest
     steps:
       - name: Check out main
@@ -38,11 +30,37 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Resolve release metadata
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            RELEASE_TAG="$INPUT_TAG"
+          else
+            RELEASE_TAG="${PR_HEAD_REF#agent/publish-}"
+          fi
+
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid release tag: $RELEASE_TAG" >&2
+            exit 1
+          fi
+
+          RELEASE_NOTES=".github/release-notes/${RELEASE_TAG}.md"
+          if [[ ! -f "$RELEASE_NOTES" ]]; then
+            echo "Missing release notes: $RELEASE_NOTES" >&2
+            exit 1
+          fi
+
+          RELEASE_TITLE="$(sed -n '1s/^# //p' "$RELEASE_NOTES")"
+          RELEASE_TITLE="${RELEASE_TITLE:-$RELEASE_TAG}"
+
+          echo "RELEASE_TAG=$RELEASE_TAG" >> "$GITHUB_ENV"
+          echo "RELEASE_NOTES=$RELEASE_NOTES" >> "$GITHUB_ENV"
+          echo "RELEASE_TITLE=$RELEASE_TITLE" >> "$GITHUB_ENV"
       - name: Validate and build
         run: npm run check
       - name: Package deployable site
-        env:
-          RELEASE_TAG: ${{ inputs.tag || 'v1.0.0' }}
         run: |
           ARTIFACT="mentalhealth-${RELEASE_TAG}-static-site.zip"
           (cd dist && zip -qr "../${ARTIFACT}" .)
@@ -50,9 +68,6 @@ jobs:
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ inputs.tag || 'v1.0.0' }}
-          RELEASE_TITLE: ${{ inputs.title || 'v1.0.0 — 初始正式版' }}
-          RELEASE_NOTES: ${{ inputs.notes_file || '.github/release-notes/v1.0.0.md' }}
         run: |
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             echo "$RELEASE_TAG already exists; nothing to publish."
