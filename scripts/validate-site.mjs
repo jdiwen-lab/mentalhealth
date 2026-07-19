@@ -14,6 +14,9 @@ const requiredFiles = [
   "js/quiz-data.js",
   "js/scoring.js",
   "js/result-card.js",
+  "package-lock.json",
+  "playwright.config.mjs",
+  "e2e/quiz-flow.spec.mjs",
   "assets/app-icon.svg",
   "assets/fonts/fonts.css",
   "assets/fonts/OFL.txt",
@@ -39,6 +42,9 @@ await Promise.all(requiredFiles.map((file) => access(resolve(root, file))));
 
 const html = await readFile(resolve(root, "index.html"), "utf8");
 const css = await readFile(resolve(root, "styles.css"), "utf8");
+const appJs = await readFile(resolve(root, "js/app.js"), "utf8");
+const resultCardJs = await readFile(resolve(root, "js/result-card.js"), "utf8");
+const serviceWorker = await readFile(resolve(root, "service-worker.js"), "utf8");
 assert.match(html, /<html[^>]+lang="zh-Hant-TW"/);
 assert.match(html, /name="viewport"/);
 assert.match(html, /name="color-scheme" content="only light"/);
@@ -48,8 +54,8 @@ assert.match(html, /id="other-roles"/);
 assert.match(html, /class="compact-notice/);
 assert.match(html, /aria-live="polite"/);
 assert.match(html, /manifest\.webmanifest/);
-assert.match(html, /styles\.css\?v=20260719-b-flow/);
-assert.match(html, /js\/app\.js\?v=20260719-b-flow/);
+assert.match(html, /styles\.css\?v=__ASSET_VERSION__/);
+assert.match(html, /js\/app\.js\?v=__ASSET_VERSION__/);
 assert.match(html, /data-font-size="large"/);
 assert.match(html, /id="result-card-image"/);
 assert.doesNotMatch(html, /id="about"/);
@@ -59,9 +65,18 @@ assert.doesNotMatch(html, /id="progress-percent"/);
 assert.doesNotMatch(html, /id="question-context"/);
 assert.doesNotMatch(html, /id="share-support-note"/);
 assert.match(css, /color-scheme:\s*only light/);
+assert.match(css, /fonts\/fonts\.css\?v=__ASSET_VERSION__/);
 assert.match(css, /html\s*\{[^}]*background-color:\s*#efe3cc/s);
 assert.match(css, /body\s*\{[^}]*background-color:\s*#efe3cc/s);
 assert.doesNotMatch(css, /prefers-color-scheme:\s*dark/);
+assert.match(css, /@media \(forced-colors: active\)/);
+assert.match(appJs, /quiz-data\.js\?v=__ASSET_VERSION__/);
+assert.match(appJs, /scoring\.js\?v=__ASSET_VERSION__/);
+assert.match(appJs, /result-card\.js\?v=__ASSET_VERSION__/);
+assert.match(resultCardJs, /\?v=\$\{ASSET_VERSION\}/);
+assert.match(serviceWorker, /CACHE_PREFIX = "mentalhealth-quiz-"/);
+assert.match(serviceWorker, /isOwnedCache\(key\) && key !== CACHE_VERSION/);
+assert.doesNotMatch(serviceWorker, /filter\(\(key\) => key !== CACHE_VERSION\)/);
 
 assert.equal(questions.length, 5);
 assert.equal(roleOrder.length, 5);

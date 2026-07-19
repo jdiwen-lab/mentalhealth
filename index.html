@@ -13,7 +13,7 @@
     <meta property="og:title" content="你是哪一種職場韌力角色？">
     <meta property="og:description" content="五個情境、約兩分鐘，看看你如何在壓力中找回步調。">
     <meta property="og:url" content="https://jdiwen-lab.github.io/mentalhealth/">
-    <meta property="og:image" content="https://jdiwen-lab.github.io/mentalhealth/assets/og-cover.png">
+    <meta property="og:image" content="https://jdiwen-lab.github.io/mentalhealth/assets/og-cover.png?v=__ASSET_VERSION__">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -21,14 +21,14 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="你是哪一種職場韌力角色？">
     <meta name="twitter:description" content="五個情境、約兩分鐘，探索你的職場韌力角色。">
-    <meta name="twitter:image" content="https://jdiwen-lab.github.io/mentalhealth/assets/og-cover.png">
+    <meta name="twitter:image" content="https://jdiwen-lab.github.io/mentalhealth/assets/og-cover.png?v=__ASSET_VERSION__">
     <meta name="twitter:image:alt" content="五張職場韌力角色圖卡與測驗標題：找到你的職場韌力角色">
     <link rel="canonical" href="https://jdiwen-lab.github.io/mentalhealth/">
-    <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="assets/icon-192.png">
-    <link rel="manifest" href="manifest.webmanifest">
-    <link rel="preload" as="image" href="assets/cards/harbor-preview.webp" type="image/webp" fetchpriority="high">
-    <link rel="stylesheet" href="styles.css?v=20260719-b-flow">
+    <link rel="icon" href="assets/app-icon.svg?v=__ASSET_VERSION__" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/icon-192.png?v=__ASSET_VERSION__">
+    <link rel="manifest" href="manifest.webmanifest?v=__ASSET_VERSION__">
+    <link rel="preload" as="image" href="assets/cards/harbor-preview.webp?v=__ASSET_VERSION__" type="image/webp" fetchpriority="high">
+    <link rel="stylesheet" href="styles.css?v=__ASSET_VERSION__">
     <title>職場韌力角色心理測驗</title>
   </head>
   <body>
@@ -67,7 +67,7 @@
             <p class="hero-lead">從 5 個日常職場情境，找出你此刻較常展現的韌力方式。</p>
             <div class="hero-actions">
               <button id="start-button" class="button button-primary button-large" type="button">
-                開始測驗（共 5 題）
+                <span id="start-button-label">開始測驗（共 5 題）</span>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
               </button>
               <button id="resume-button" class="button button-quiet button-large" type="button" hidden>繼續上次進度</button>
@@ -81,9 +81,9 @@
           <div class="hero-visual" aria-label="職場韌力角色圖卡預覽">
             <div class="hero-card-showcase">
               <div class="showcase-glow" aria-hidden="true"></div>
-              <img class="showcase-card showcase-card-left" src="assets/cards/coral-preview.webp" width="640" height="960" alt="" aria-hidden="true">
-              <img class="showcase-card showcase-card-center" src="assets/cards/harbor-preview.webp" width="640" height="960" alt="港灣型職場韌力角色圖卡範例" fetchpriority="high">
-              <img class="showcase-card showcase-card-right" src="assets/cards/breeze-preview.webp" width="640" height="960" alt="" aria-hidden="true">
+              <img class="showcase-card showcase-card-left" src="assets/cards/coral-preview.webp?v=__ASSET_VERSION__" width="640" height="960" alt="" aria-hidden="true">
+              <img class="showcase-card showcase-card-center" src="assets/cards/harbor-preview.webp?v=__ASSET_VERSION__" width="640" height="960" alt="港灣型職場韌力角色圖卡範例" fetchpriority="high">
+              <img class="showcase-card showcase-card-right" src="assets/cards/breeze-preview.webp?v=__ASSET_VERSION__" width="640" height="960" alt="" aria-hidden="true">
               <span class="showcase-seal" aria-hidden="true">EAP<br>韌力卡</span>
             </div>
           </div>
@@ -157,11 +157,11 @@
             <div class="share-actions">
               <button id="share-button" class="button button-primary" type="button">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0-12-4 4m4-4 4 4M5 12v7h14v-7"/></svg>
-                分享圖卡
+                <span id="share-button-label">分享圖卡</span>
               </button>
               <button id="download-button" class="button button-secondary" type="button">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 19h14"/></svg>
-                下載 PNG
+                <span id="download-button-label">下載 PNG</span>
               </button>
               <button id="copy-button" class="button button-quiet" type="button">複製測驗連結</button>
             </div>
@@ -203,6 +203,6 @@
 
     <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
     <noscript><div class="noscript">這份測驗需要 JavaScript 才能進行。請啟用 JavaScript 後重新整理頁面。</div></noscript>
-    <script type="module" src="js/app.js?v=20260719-b-flow"></script>
+    <script type="module" src="js/app.js?v=__ASSET_VERSION__"></script>
   </body>
 </html>
