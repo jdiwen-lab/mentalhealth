@@ -6,6 +6,31 @@
 
 目前沒有尚未發行的變更。
 
+## [1.3.0] - 2026-07-19
+
+### 變更
+
+- 建置流程改由 `package.json` 自動注入統一資產版本，涵蓋 CSS、所有 JavaScript 模組、manifest、圖示與圖卡
+- 偵測既有作答時，將「繼續上次進度」設為主要動作，重新開始前必須經過確認
+- 依瀏覽器能力區分「分享圖卡」與「分享測驗連結」，並在圖卡準備期間顯示狀態及鎖定重複操作
+- 強化鍵盤焦點、Windows 強制色彩模式及 JavaScript 對減少動態偏好的支援
+- 新增 Playwright 完整作答、續答、分享、手機版面與 axe 無障礙回歸測試
+
+### 修正
+
+- Service Worker 只刪除本測驗的新舊快取，避免影響同一 GitHub Pages 網域下的其他專案
+- Service Worker 只攔截測驗路徑內請求，並只從目前版本的 Cache 讀取資產
+- 重設重新測驗對話框的 `returnValue`，避免取消操作沿用先前確認狀態
+- 以共用 Promise 快取高畫質圖卡請求，避免連續點擊造成重複下載
+
+### 驗證
+
+- 10 項單元與靜態檢查全數通過
+- 6 項真實 Chromium 流程與 axe WCAG A／AA 自動檢測全數通過
+- 全部 3,125 種作答組合仍唯一、可重現且五種角色各 625 種
+- 390px 手機放大字體無水平溢位，`npm audit` 未發現已知漏洞
+- 題目、角色內容、計分權重與同分決勝程式未變更
+
 ## [1.2.0] - 2026-07-19
 
 ### 變更
@@ -65,7 +90,8 @@
 - 五種角色各 625 種結果
 - 桌機與手機瀏覽器 QA 全數通過
 
-[尚未發行]: https://github.com/jdiwen-lab/mentalhealth/compare/v1.2.0...HEAD
+[尚未發行]: https://github.com/jdiwen-lab/mentalhealth/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/jdiwen-lab/mentalhealth/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/jdiwen-lab/mentalhealth/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/jdiwen-lab/mentalhealth/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/jdiwen-lab/mentalhealth/releases/tag/v1.0.0
