@@ -38,15 +38,28 @@ const requiredFiles = [
 await Promise.all(requiredFiles.map((file) => access(resolve(root, file))));
 
 const html = await readFile(resolve(root, "index.html"), "utf8");
+const css = await readFile(resolve(root, "styles.css"), "utf8");
 assert.match(html, /<html[^>]+lang="zh-Hant-TW"/);
 assert.match(html, /name="viewport"/);
+assert.match(html, /name="color-scheme" content="only light"/);
 assert.match(html, /id="quiz-view"/);
 assert.match(html, /id="result-view"/);
-assert.match(html, /id="privacy"/);
+assert.match(html, /id="other-roles"/);
+assert.match(html, /class="compact-notice/);
 assert.match(html, /aria-live="polite"/);
 assert.match(html, /manifest\.webmanifest/);
 assert.match(html, /data-font-size="large"/);
 assert.match(html, /id="result-card-image"/);
+assert.doesNotMatch(html, /id="about"/);
+assert.doesNotMatch(html, /id="privacy"/);
+assert.doesNotMatch(html, /id="quit-button"/);
+assert.doesNotMatch(html, /id="progress-percent"/);
+assert.doesNotMatch(html, /id="question-context"/);
+assert.doesNotMatch(html, /id="share-support-note"/);
+assert.match(css, /color-scheme:\s*only light/);
+assert.match(css, /html\s*\{[^}]*background-color:\s*#efe3cc/s);
+assert.match(css, /body\s*\{[^}]*background-color:\s*#efe3cc/s);
+assert.doesNotMatch(css, /prefers-color-scheme:\s*dark/);
 
 assert.equal(questions.length, 5);
 assert.equal(roleOrder.length, 5);

@@ -1,4 +1,4 @@
-import { questions, roleOrder, roles, strengthCopy } from "./quiz-data.js";
+import { questions, roleOrder, roles } from "./quiz-data.js";
 import { scoreQuiz } from "./scoring.js";
 import { fetchResultCardBlob, getResultCardAsset, roleSymbolSvg } from "./result-card.js";
 
@@ -13,17 +13,14 @@ const elements = {
   quizForm: document.querySelector("#quiz-form"),
   previousButton: document.querySelector("#previous-button"),
   nextButton: document.querySelector("#next-button"),
-  quitButton: document.querySelector("#quit-button"),
   progressLabel: document.querySelector("#progress-label"),
-  progressPercent: document.querySelector("#progress-percent"),
   progressBar: document.querySelector("#progress-bar"),
   progressTrack: document.querySelector(".progress-track"),
-  questionContext: document.querySelector("#question-context"),
   questionTitle: document.querySelector("#question-title"),
+  questionHint: document.querySelector("#question-hint"),
   optionsList: document.querySelector("#options-list"),
   quizStatus: document.querySelector("#quiz-status"),
   resultView: document.querySelector("#result-view"),
-  resultStrengthCopy: document.querySelector("#result-strength-copy"),
   resultRoleName: document.querySelector("#result-role-name"),
   resultTagline: document.querySelector("#result-tagline"),
   resultSymbol: document.querySelector("#result-symbol"),
@@ -37,9 +34,9 @@ const elements = {
   shareButton: document.querySelector("#share-button"),
   downloadButton: document.querySelector("#download-button"),
   copyButton: document.querySelector("#copy-button"),
-  shareSupportNote: document.querySelector("#share-support-note"),
   retakeButton: document.querySelector("#retake-button"),
   restartDialog: document.querySelector("#restart-dialog"),
+  otherRoles: document.querySelector("#other-roles"),
   roleCards: document.querySelector("#role-cards"),
   fontSizeButtons: [...document.querySelectorAll("[data-font-size]")],
   toast: document.querySelector("#toast")
@@ -164,11 +161,13 @@ function renderQuestion() {
   const progress = Math.round(((state.currentIndex + 1) / questions.length) * 100);
 
   elements.progressLabel.textContent = `第 ${question.number} 題，共 ${questions.length} 題`;
-  elements.progressPercent.textContent = `${progress}%`;
   elements.progressBar.style.width = `${progress}%`;
   elements.progressTrack.setAttribute("aria-valuenow", String(question.number));
-  elements.questionContext.textContent = `${String(question.number).padStart(2, "0")} · ${question.context}`;
   elements.questionTitle.textContent = question.prompt;
+  const showQuestionHint = state.currentIndex === 0;
+  elements.questionHint.hidden = !showQuestionHint;
+  if (showQuestionHint) elements.optionsList.setAttribute("aria-describedby", "question-hint");
+  else elements.optionsList.removeAttribute("aria-describedby");
   elements.previousButton.hidden = state.currentIndex === 0;
   elements.nextButton.disabled = !currentAnswer;
   elements.nextButton.querySelector("span").textContent = state.currentIndex === questions.length - 1 ? "查看結果" : "下一題";
@@ -240,10 +239,11 @@ function handleQuizSubmit(event) {
   renderResult();
 }
 
-function renderRoleCards() {
+function renderRoleCards(currentRoleId) {
   elements.roleCards.replaceChildren();
-  roleOrder.forEach((roleId, index) => {
+  roleOrder.filter((roleId) => roleId !== currentRoleId).forEach((roleId) => {
     const role = roles[roleId];
+    const roleIndex = roleOrder.indexOf(roleId) + 1;
     const article = document.createElement("article");
     article.className = "role-card";
     article.style.setProperty("--card-color", role.color);
@@ -254,7 +254,7 @@ function renderRoleCards() {
         <img src="${cardAsset.preview}" width="640" height="960" alt="${role.name}韌力角色圖卡" loading="lazy" decoding="async">
       </figure>
       <div class="role-card-copy">
-        <span class="role-card-index">${String(index + 1).padStart(2, "0")} · ${role.englishName}</span>
+        <span class="role-card-index">${String(roleIndex).padStart(2, "0")} · ${role.englishName}</span>
         <h3>${role.name}</h3>
         <strong>${role.core}</strong>
         <p>${role.summary}</p>
@@ -274,12 +274,10 @@ async function renderResult() {
   latestResult = scoreQuiz(state.answers);
   latestCardBlob = null;
   const role = roles[latestResult.roleId];
-  const strengthLine = strengthCopy[latestResult.resultStrength](role);
 
   elements.resultView.style.setProperty("--role-color", role.color);
   elements.resultView.style.setProperty("--role-dark", role.colorDark);
   elements.resultView.style.setProperty("--role-soft", role.colorSoft);
-  elements.resultStrengthCopy.textContent = strengthLine;
   elements.resultRoleName.textContent = role.name;
   elements.resultTagline.textContent = role.tagline;
   elements.resultSymbol.innerHTML = roleSymbolSvg(role.id);
@@ -297,9 +295,11 @@ async function renderResult() {
   elements.resultCardSource.srcset = cardAsset.preview;
   elements.resultCardImage.src = cardAsset.preview;
   elements.resultCardImage.alt = `${role.name}職場韌力角色圖卡：${role.tagline}`;
+  renderRoleCards(role.id);
+  elements.otherRoles.open = false;
 
   showView("result");
-  updateShareSupport();
+  updateShareAvailability();
 }
 
 async function getCardBlob() {
@@ -373,12 +373,9 @@ async function copyQuizLink() {
   showToast("測驗連結已複製");
 }
 
-function updateShareSupport() {
+function updateShareAvailability() {
   const mobileLike = matchMedia("(pointer: coarse)").matches;
   elements.shareButton.hidden = !navigator.share && !mobileLike;
-  elements.shareSupportNote.textContent = navigator.share
-    ? "可直接分享到支援的社群 App；圖卡不含作答內容或分數。"
-    : "此瀏覽器可下載高畫質 PNG，再自行上傳至社群平台。";
 }
 
 function showToast(message) {
@@ -442,11 +439,6 @@ elements.startButton.addEventListener("click", startNewQuiz);
 elements.resumeButton.addEventListener("click", resumeQuiz);
 elements.quizForm.addEventListener("submit", handleQuizSubmit);
 elements.previousButton.addEventListener("click", goToPreviousQuestion);
-elements.quitButton.addEventListener("click", () => {
-  saveState();
-  showView("home");
-  showToast("進度已暫存在這台裝置");
-});
 elements.shareButton.addEventListener("click", shareResult);
 elements.downloadButton.addEventListener("click", downloadResult);
 elements.copyButton.addEventListener("click", copyQuizLink);
@@ -462,8 +454,7 @@ window.addEventListener("hashchange", () => {
   if (location.hash === "#home" && document.body.dataset.activeView !== "home") showView("home", { focus: false });
 });
 
-renderRoleCards();
 loadFontSize();
 loadState();
-updateShareSupport();
+updateShareAvailability();
 registerServiceWorker();
