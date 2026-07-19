@@ -48,6 +48,8 @@ assert.match(html, /id="other-roles"/);
 assert.match(html, /class="compact-notice/);
 assert.match(html, /aria-live="polite"/);
 assert.match(html, /manifest\.webmanifest/);
+assert.match(html, /styles\.css\?v=20260719-b-flow/);
+assert.match(html, /js\/app\.js\?v=20260719-b-flow/);
 assert.match(html, /data-font-size="large"/);
 assert.match(html, /id="result-card-image"/);
 assert.doesNotMatch(html, /id="about"/);

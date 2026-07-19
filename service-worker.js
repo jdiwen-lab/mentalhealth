@@ -1,10 +1,10 @@
-const CACHE_VERSION = "mentalhealth-2026-07-19-streamlined-flow";
+const CACHE_VERSION = "mentalhealth-2026-07-19-streamlined-flow-r2";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css",
+  "./styles.css?v=20260719-b-flow",
   "./manifest.webmanifest",
-  "./js/app.js",
+  "./js/app.js?v=20260719-b-flow",
   "./js/quiz-data.js",
   "./js/scoring.js",
   "./js/result-card.js",
